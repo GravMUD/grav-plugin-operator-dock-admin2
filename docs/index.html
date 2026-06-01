@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Operator Dock for Admin2 — Wire the controls</title>
+  <meta name="description" content="FREE Admin2 operator utilities for Grav 2.0. Header shortcuts, Launch Pad widget, Clear Cache. Andy-compatible. MIT forever. Team DC.">
+  <meta property="og:title" content="Operator Dock for Admin2">
+  <meta property="og:description" content="JavaBean paints the cockpit. Operator Dock wires the controls. 🚀">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050a0f;
+      --fg: #e8f4ff;
+      --muted: #7a9bb5;
+      --cyan: #22d3ee;
+      --emerald: #34d399;
+      --primary: #10b981;
+      --glow: rgba(16, 185, 129, 0.45);
+      --card: rgba(8, 20, 30, 0.72);
+      --border: rgba(34, 211, 238, 0.16);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 15% -5%, rgba(34, 211, 238, 0.22), transparent 55%),
+        radial-gradient(ellipse 60% 45% at 95% 15%, rgba(16, 185, 129, 0.25), transparent 50%),
+        radial-gradient(ellipse 70% 55% at 50% 110%, rgba(6, 78, 59, 0.35), transparent 55%),
+        linear-gradient(180deg, #071018 0%, var(--bg) 45%, #030608 100%);
+      z-index: -2;
+    }
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(34, 211, 238, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34, 211, 238, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black, transparent);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 1.5rem;
+      backdrop-filter: blur(14px);
+      background: rgba(5, 10, 15, 0.78);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.05rem;
+      text-decoration: none;
+      color: var(--fg);
+    }
+    .logo span { color: var(--primary); }
+    .nav-links { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      text-decoration: none;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-launch {
+      background: linear-gradient(135deg, var(--primary), var(--cyan));
+      color: #042016;
+      box-shadow: 0 0 28px var(--glow);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--fg);
+      border: 1px solid var(--border);
+    }
+    .hero {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 3rem;
+      text-align: center;
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .pill {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--cyan);
+    }
+    .pill.hot { color: var(--emerald); border-color: rgba(52, 211, 153, 0.35); }
+    .rocket {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 0.5rem;
+      animation: floatRocket 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 24px rgba(16, 185, 129, 0.5));
+    }
+    @keyframes floatRocket {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
+    }
+    h1 {
+      font-size: clamp(2.4rem, 8vw, 4rem);
+      font-weight: 700;
+      line-height: 1.05;
+      margin: 0 0 1rem;
+      letter-spacing: -0.03em;
+    }
+    h1 .gradient {
+      background: linear-gradient(135deg, var(--cyan), var(--primary), var(--emerald));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-sub {
+      font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+      color: var(--muted);
+      max-width: 680px;
+      margin: 0 auto 1.25rem;
+    }
+    .hero-quote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--primary);
+      margin-bottom: 2rem;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+    .launchpad-demo {
+      max-width: 720px;
+      margin: 2.5rem auto 0;
+      padding: 1.25rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      text-align: left;
+      box-shadow: 0 0 60px rgba(16, 185, 129, 0.08);
+    }
+    .launchpad-demo h3 {
+      margin: 0 0 1rem;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--fg);
+    }
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+    @media (max-width: 520px) { .tile-grid { grid-template-columns: repeat(2, 1fr); } }
+    .tile {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.55rem 0.65rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.35);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .tile:hover { border-color: rgba(16, 185, 129, 0.45); color: var(--fg); }
+    .tile i { color: var(--primary); font-style: normal; }
+    section { max-width: 1100px; margin: 0 auto; padding: 3.5rem 1.5rem; }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: clamp(1.6rem, 4vw, 2.25rem);
+      margin: 0 0 1rem;
+      letter-spacing: -0.02em;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .feature {
+      padding: 1.35rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      transform: translateY(-3px);
+    }
+    .feature-icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    .feature h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+    .feature p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+    .terminal {
+      background: #020508;
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.25rem 1.35rem;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 0.88rem;
+      box-shadow: 0 0 40px rgba(34, 211, 238, 0.1);
+    }
+    .terminal .prompt { color: var(--emerald); }
+    .terminal .cmd { color: var(--fg); }
+    .terminal .comment { color: #4a6278; margin-top: 0.75rem; display: block; }
+    .pair {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+    .pair-chip {
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--muted);
+    }
+    .pair-chip strong { color: var(--fg); }
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem 4rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+</head>
+<body>
+  <div class="grid-bg" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <a class="logo" href="#">🧭 Operator<span>Dock</span></a>
+    <div class="nav-links">
+      <a class="btn btn-ghost" href="#features">Features</a>
+      <a class="btn btn-ghost" href="https://javabean.gravmud.site">JavaBean</a>
+      <a class="btn btn-launch" href="https://github.com/GravMUD/grav-plugin-grav-operator-dock-admin2/releases">Get it FREE</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="pill-row">
+      <span class="pill hot">MIT · Free forever</span>
+      <span class="pill">Grav 2.0</span>
+      <span class="pill">Admin2</span>
+      <span class="pill">Team DC</span>
+    </div>
+    <span class="rocket" aria-hidden="true">🚀</span>
+    <h1>Wire the<br><span class="gradient">Admin2 controls</span></h1>
+    <p class="hero-sub"><strong>Operator Dock for Admin2</strong> — header shortcuts, a dashboard Launch Pad with nine operator tiles, one-click Clear Cache, and configurable links. Zero forks. Zero paywalls.</p>
+    <p class="hero-quote">"JavaBean paints the cockpit. Operator Dock wires the controls."</p>
+    <div class="hero-actions">
+      <a class="btn btn-launch" href="https://github.com/GravMUD/grav-plugin-grav-operator-dock-admin2">⭐ Star on GitHub</a>
+      <a class="btn btn-ghost" href="https://github.com/GravMUD/grav-plugin-grav-operator-dock-admin2/releases">Download release</a>
+      <a class="btn btn-ghost" href="https://getgrav.live">GetGRAV!</a>
+    </div>
+
+    <div class="launchpad-demo" aria-label="Launch Pad preview">
+      <h3><i class="fa-solid fa-rocket" style="color:var(--primary)"></i> Operator Launch Pad</h3>
+      <div class="tile-grid">
+        <div class="tile"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Site</div>
+        <div class="tile"><i class="fa-solid fa-graduation-cap"></i> Grav Learn</div>
+        <div class="tile"><i class="fa-solid fa-rocket"></i> GetGRAV!</div>
+        <div class="tile"><i class="fa-solid fa-file-lines"></i> Pages</div>
+        <div class="tile"><i class="fa-solid fa-puzzle-piece"></i> Plugins</div>
+        <div class="tile"><i class="fa-solid fa-palette"></i> Themes</div>
+        <div class="tile"><i class="fa-solid fa-screwdriver-wrench"></i> Tools</div>
+        <div class="tile"><i class="fa-solid fa-sliders"></i> Settings</div>
+        <div class="tile"><i class="fa-solid fa-broom"></i> Clear Cache</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="features">
+    <p class="section-label">Mission control</p>
+    <h2>Shortcuts where operators actually look.</h2>
+    <div class="grid-3">
+      <div class="feature">
+        <div class="feature-icon">🔗</div>
+        <h3>Header shortcuts</h3>
+        <p>Merges into Admin2 <code>menubarLinks</code> — View Site, Grav Learn, custom URLs, optional Team DC pack.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🛸</div>
+        <h3>Launch Pad widget</h3>
+        <p>Dashboard tiles for Pages, Plugins, Themes, Tools, Settings — plus your configured shortcuts and live site vitals.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🧹</div>
+        <h3>Clear Cache</h3>
+        <p>One-click menubar action. Requires <code>api.system.write</code>. No terminal cosplay required.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⚙️</div>
+        <h3>Settings panel</h3>
+        <p>Admin2 → Settings → Operator Dock, or the sidebar plugin page. Toggle every feature independently.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🌓</div>
+        <h3>Andy-compatible</h3>
+        <p>Official Admin2 extension points only — same patterns as JavaBean. Uninstall cleanly, no ghost routes.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">☕</div>
+        <h3>Pairs with JavaBean</h3>
+        <p>Paint with JavaBean. Operate with Operator Dock. Commercial GravMUD plugins stay separate products.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <p class="section-label">Install</p>
+    <h2>Two commands to dock.</h2>
+    <div class="terminal">
+      <span class="prompt">$</span> <span class="cmd">bin/gpm install grav-operator-dock-admin2</span>
+      <span class="comment"># Or manual: extract to user/plugins/grav-operator-dock-admin2, clear cache, enable in Admin2 → Plugins.</span>
+    </div>
+    <div class="pair">
+      <span class="pair-chip"><strong>Requires</strong> Grav 2.0 + Admin2 + API</span>
+      <span class="pair-chip"><strong>License</strong> MIT</span>
+      <span class="pair-chip"><strong>Author</strong> FutureVision Labs · Team DC</span>
+    </div>
+  </section>
+
+  <footer>
+    <p><a href="https://github.com/GravMUD/grav-plugin-grav-operator-dock-admin2">GitHub</a> · <a href="https://javabean.gravmud.site">JavaBean</a> · <a href="https://gravmud.site">GravMUD</a> · <a href="https://getgrav.live">GetGRAV!</a></p>
+    <p style="margin-top:0.75rem">Admin2 by Trilby Media / Grav community · Operator Dock MIT gift from Team DC</p>
+  </footer>
+</body>
+</html>

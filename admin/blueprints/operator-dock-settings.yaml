@@ -1,0 +1,95 @@
+title: Operator Dock
+form:
+  validation: loose
+  fields:
+    tabs:
+      type: tabs
+      fields:
+        shortcuts:
+          type: tab
+          title: Shortcuts
+          fields:
+            enabled:
+              type: toggle
+              label: Enable Operator Dock
+              highlight: 1
+              default: 1
+              options:
+                1: Enabled
+                0: Disabled
+            inject_header_links:
+              type: toggle
+              label: Inject header shortcuts
+              highlight: 1
+              default: 1
+              help: Merges links into Admin2 top bar icons
+              options:
+                1: Enabled
+                0: Disabled
+            include_view_site:
+              type: toggle
+              label: View Site
+              default: 1
+              options:
+                1: Yes
+                0: No
+            include_grav_learn:
+              type: toggle
+              label: Grav Learn
+              default: 1
+              options:
+                1: Yes
+                0: No
+            include_team_dc_pack:
+              type: toggle
+              label: Team DC pack (GetGRAV!, Mud Bazaar)
+              default: 0
+              options:
+                1: Yes
+                0: No
+            custom_links:
+              type: list
+              label: Custom links
+              fields:
+                .label:
+                  type: text
+                  label: Label
+                .url:
+                  type: text
+                  label: URL
+                .icon:
+                  type: text
+                  label: Icon
+                  default: fa-link
+                .external:
+                  type: toggle
+                  label: External
+                  default: 1
+                  options:
+                    1: Yes
+                    0: No
+        dashboard:
+          type: tab
+          title: Dashboard
+          fields:
+            show_launchpad_widget:
+              type: toggle
+              label: Launch Pad widget
+              default: 1
+              options:
+                1: Enabled
+                0: Disabled
+            launchpad_show_vitals:
+              type: toggle
+              label: Show site vitals
+              default: 1
+              options:
+                1: Yes
+                0: No
+            show_clear_cache_button:
+              type: toggle
+              label: Clear Cache toolbar button
+              default: 1
+              options:
+                1: Enabled
+                0: Disabled

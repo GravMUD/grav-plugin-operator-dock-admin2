@@ -1,0 +1,122 @@
+name: Operator Dock for Admin2
+slug: grav-operator-dock-admin2
+type: plugin
+version: 1.0.0
+description: Free Admin2 operator shortcuts — header links, launch pad widget, one-click cache clear.
+icon: compass
+author:
+  name: FutureVision Labs · Team DC
+  email: chief@gravmud.site
+  url: https://gravmud.site
+homepage: https://operator-dock.gravmud.site
+bugs: https://github.com/GravMUD/grav-plugin-grav-operator-dock-admin2/issues
+docs: https://operator-dock.gravmud.site
+keywords: grav, admin2, admin-next, dashboard, shortcuts, operator, dock
+license: MIT
+compatibility:
+  grav: ['2.0']
+dependencies:
+  - { name: grav, version: '>=2.0.0' }
+  - { name: admin2, version: '>=1.0.0' }
+  - { name: api, version: '>=1.0.0' }
+form:
+  validation: loose
+  fields:
+    enabled:
+      type: toggle
+      label: Operator Dock
+      highlight: 1
+      default: 1
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
+    inject_header_links:
+      type: toggle
+      label: Inject header shortcuts
+      highlight: 1
+      default: 1
+      help: Merge configured links into Admin2 top bar (menubarLinks)
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
+    include_view_site:
+      type: toggle
+      label: Include View Site link
+      default: 1
+      options:
+        1: Yes
+        0: No
+      validate:
+        type: bool
+    include_grav_learn:
+      type: toggle
+      label: Include Grav Learn link
+      default: 1
+      options:
+        1: Yes
+        0: No
+      validate:
+        type: bool
+    include_team_dc_pack:
+      type: toggle
+      label: Include Team DC pack (GetGRAV!, Mud Bazaar)
+      default: 0
+      options:
+        1: Yes
+        0: No
+      validate:
+        type: bool
+    show_clear_cache_button:
+      type: toggle
+      label: Show Clear Cache toolbar button
+      default: 1
+      options:
+        1: Yes
+        0: No
+      validate:
+        type: bool
+    show_launchpad_widget:
+      type: toggle
+      label: Register Launch Pad dashboard widget
+      default: 1
+      options:
+        1: Yes
+        0: No
+      validate:
+        type: bool
+    launchpad_show_vitals:
+      type: toggle
+      label: Show site vitals on Launch Pad
+      default: 1
+      options:
+        1: Yes
+        0: No
+      validate:
+        type: bool
+    custom_links:
+      type: list
+      label: Custom header links
+      fields:
+        .label:
+          type: text
+          label: Label
+        .url:
+          type: text
+          label: URL
+        .icon:
+          type: text
+          label: Icon (Font Awesome class)
+          default: fa-link
+        .external:
+          type: toggle
+          label: Open in new tab
+          default: 1
+          options:
+            1: Yes
+            0: No
+          validate:
+            type: bool
