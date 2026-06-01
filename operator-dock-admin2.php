@@ -4,6 +4,7 @@ namespace Grav\Plugin;
 
 use Grav\Common\Plugin;
 use Grav\Plugin\OperatorDockAdmin2\OperatorDockApiBridgeController;
+use Grav\Plugin\OperatorDockAdmin2\OperatorDockLegacy;
 use Grav\Plugin\OperatorDockAdmin2\OperatorDockMenubarLinks;
 use Grav\Plugin\OperatorDockAdmin2\OperatorDockRouteCache;
 use RocketTheme\Toolbox\Event\Event;
@@ -36,6 +37,7 @@ class GravOperatorDockAdmin2Plugin extends Plugin
         }
 
         $this->loadClasses();
+        OperatorDockLegacy::maybeMigrate($this->grav);
         OperatorDockRouteCache::maybeInvalidate($this->grav);
     }
 
@@ -62,8 +64,8 @@ class GravOperatorDockAdmin2Plugin extends Plugin
 
         $panels = $event['panels'] ?? [];
         $panels[] = [
-            'id' => 'grav-operator-dock-admin2',
-            'plugin' => 'grav-operator-dock-admin2',
+            'id' => 'operator-dock-admin2',
+            'plugin' => 'operator-dock-admin2',
             'label' => 'Operator Dock',
             'description' => 'Header shortcuts, launch pad links, and quick ops',
             'icon' => 'fa-compass',
@@ -83,11 +85,11 @@ class GravOperatorDockAdmin2Plugin extends Plugin
 
         $items = $event['items'] ?? [];
         $items[] = [
-            'id' => 'grav-operator-dock-admin2',
-            'plugin' => 'grav-operator-dock-admin2',
+            'id' => 'operator-dock-admin2',
+            'plugin' => 'operator-dock-admin2',
             'label' => 'Operator Dock',
             'icon' => 'fa-compass',
-            'route' => '/plugin/grav-operator-dock-admin2',
+            'route' => '/plugin/operator-dock-admin2',
             'priority' => 84,
         ];
         $event['items'] = $items;
@@ -95,7 +97,8 @@ class GravOperatorDockAdmin2Plugin extends Plugin
 
     public function onApiPluginPageInfo(Event $event): void
     {
-        if (!$this->isEnabled() || ($event['plugin'] ?? '') !== 'grav-operator-dock-admin2') {
+        $plugin = (string) ($event['plugin'] ?? '');
+        if (!$this->isEnabled() || !in_array($plugin, [OperatorDockLegacy::SLUG, OperatorDockLegacy::LEGACY_SLUG], true)) {
             return;
         }
 
@@ -104,12 +107,12 @@ class GravOperatorDockAdmin2Plugin extends Plugin
         }
 
         $event['definition'] = [
-            'id' => 'grav-operator-dock-admin2',
-            'plugin' => 'grav-operator-dock-admin2',
+            'id' => 'operator-dock-admin2',
+            'plugin' => 'operator-dock-admin2',
             'title' => 'Operator Dock',
             'icon' => 'fa-compass',
             'page_type' => 'blueprint',
-            'blueprint' => 'grav-operator-dock-admin2',
+            'blueprint' => 'operator-dock-admin2',
             'data_endpoint' => '/operator-dock/settings',
             'save_endpoint' => '/operator-dock/settings',
             'actions' => [
@@ -130,11 +133,11 @@ class GravOperatorDockAdmin2Plugin extends Plugin
             $items[] = $item;
         }
 
-        $cfg = (array) $this->grav['config']->get('plugins.grav-operator-dock-admin2', []);
+        $cfg = OperatorDockLegacy::config($this->grav);
         if (!empty($cfg['show_clear_cache_button'])) {
             $items[] = [
                 'id' => 'operator-dock-clear-cache',
-                'plugin' => 'grav-operator-dock-admin2',
+                'plugin' => 'operator-dock-admin2',
                 'label' => 'Clear cache',
                 'icon' => 'fa-broom',
                 'action' => 'clear-cache',
@@ -149,7 +152,8 @@ class GravOperatorDockAdmin2Plugin extends Plugin
 
     public function onApiMenubarAction(Event $event): void
     {
-        if (($event['plugin'] ?? '') !== 'grav-operator-dock-admin2') {
+        $plugin = (string) ($event['plugin'] ?? '');
+        if (!in_array($plugin, [OperatorDockLegacy::SLUG, OperatorDockLegacy::LEGACY_SLUG], true)) {
             return;
         }
 
@@ -186,7 +190,7 @@ class GravOperatorDockAdmin2Plugin extends Plugin
             return;
         }
 
-        $cfg = (array) $this->grav['config']->get('plugins.grav-operator-dock-admin2', []);
+        $cfg = OperatorDockLegacy::config($this->grav);
         if (empty($cfg['show_launchpad_widget'])) {
             return;
         }
@@ -194,7 +198,7 @@ class GravOperatorDockAdmin2Plugin extends Plugin
         $widgets = $event['widgets'] ?? [];
         $widgets[] = [
             'id' => 'operator-dock.launchpad',
-            'plugin' => 'grav-operator-dock-admin2',
+            'plugin' => 'operator-dock-admin2',
             'label' => 'Operator Launch Pad',
             'icon' => 'Rocket',
             'sizes' => ['sm', 'md', 'lg', 'xl'],
@@ -209,12 +213,12 @@ class GravOperatorDockAdmin2Plugin extends Plugin
 
     private function widgetScriptUrl(): string
     {
-        return '/gpm/plugins/grav-operator-dock-admin2/widget-script';
+        return '/gpm/plugins/operator-dock-admin2/widget-script';
     }
 
     private function isEnabled(): bool
     {
-        return (bool) $this->grav['config']->get('plugins.grav-operator-dock-admin2.enabled', true);
+        return OperatorDockLegacy::isEnabled($this->grav);
     }
 
     /** @param mixed $user */
@@ -243,6 +247,7 @@ class GravOperatorDockAdmin2Plugin extends Plugin
 
     private function loadClasses(): void
     {
+        require_once __DIR__ . '/classes/OperatorDockLegacy.php';
         require_once __DIR__ . '/classes/OperatorDockLinkRegistry.php';
         require_once __DIR__ . '/classes/OperatorDockMenubarLinks.php';
         require_once __DIR__ . '/classes/OperatorDockRouteCache.php';

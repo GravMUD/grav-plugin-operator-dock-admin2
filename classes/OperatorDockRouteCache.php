@@ -11,7 +11,7 @@ use Grav\Common\Grav;
  */
 class OperatorDockRouteCache
 {
-    private const PLUGIN_VERSION = '1.0.0';
+    private const PLUGIN_VERSION = '1.1.0';
 
     public static function maybeInvalidate(Grav $grav): void
     {

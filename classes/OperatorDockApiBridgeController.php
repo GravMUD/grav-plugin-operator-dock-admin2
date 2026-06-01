@@ -54,7 +54,7 @@ class OperatorDockApiBridgeController extends AbstractApiController
     /** @return array<string, mixed> */
     private function readSettings(): array
     {
-        $cfg = (array) $this->config->get('plugins.grav-operator-dock-admin2', []);
+        $cfg = OperatorDockLegacy::config($this->grav);
 
         return [
             'enabled' => !empty($cfg['enabled']),
@@ -72,12 +72,7 @@ class OperatorDockApiBridgeController extends AbstractApiController
     /** @param array<string, mixed> $body */
     private function writeSettings(array $body): void
     {
-        $path = $this->grav['locator']->findResource('user://config/plugins/grav-operator-dock-admin2.yaml', true, true);
-        if (!$path) {
-            throw new \RuntimeException('Unable to resolve plugin config path.');
-        }
-
-        $file = YamlFile::instance($path);
+        $file = YamlFile::instance(OperatorDockLegacy::configFilePath($this->grav));
         $current = $file->exists() ? (array) $file->content() : [];
 
         foreach ([

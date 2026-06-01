@@ -1,3 +1,11 @@
+# v1.1.0
+## 06/01/2026
+
+1. [](#breaking)
+    * Plugin slug **`operator-dock-admin2`** (was `grav-operator-dock-admin2`) — repo `grav-plugin-operator-dock-admin2`
+    * Admin route `/plugin/operator-dock-admin2`; API routes stay `/operator-dock/*`
+    * Auto-migrates plugin config yaml and `system.yaml` on first load
+
 # v1.0.1
 ## 06/01/2026
 

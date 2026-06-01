@@ -1,7 +1,7 @@
 name: Operator Dock for Admin2
-slug: grav-operator-dock-admin2
+slug: operator-dock-admin2
 type: plugin
-version: 1.0.1
+version: 1.1.0
 description: Free Admin2 operator shortcuts — header links, launch pad widget, one-click cache clear.
 icon: compass
 author:
@@ -9,7 +9,7 @@ author:
   email: chief@gravmud.site
   url: https://gravmud.site
 homepage: https://operator-dock.gravmud.site
-bugs: https://github.com/GravMUD/grav-plugin-grav-operator-dock-admin2/issues
+bugs: https://github.com/GravMUD/grav-plugin-operator-dock-admin2/issues
 docs: https://operator-dock.gravmud.site
 keywords: grav, admin2, admin-next, dashboard, shortcuts, operator, dock
 license: MIT

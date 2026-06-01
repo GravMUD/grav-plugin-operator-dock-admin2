@@ -16,7 +16,7 @@ class OperatorDockLinkRegistry
     /** @return array<int, array<string, mixed>> */
     public function headerLinks(): array
     {
-        $cfg = (array) $this->grav['config']->get('plugins.grav-operator-dock-admin2', []);
+        $cfg = OperatorDockLegacy::config($this->grav);
         $links = [];
 
         if (!empty($cfg['include_view_site'])) {
@@ -51,7 +51,7 @@ class OperatorDockLinkRegistry
     /** @return array<string, mixed> */
     public function launchpadPayload(): array
     {
-        $cfg = (array) $this->grav['config']->get('plugins.grav-operator-dock-admin2', []);
+        $cfg = OperatorDockLegacy::config($this->grav);
         $tiles = [];
 
         foreach ($this->headerLinks() as $link) {
@@ -122,7 +122,7 @@ class OperatorDockLinkRegistry
         return [
             [
                 'label' => 'GetGRAV!',
-                'url' => 'https://getgrav.live',
+                'url' => 'https://gravfans.live',
                 'icon' => 'fa-rocket',
                 'external' => true,
             ],

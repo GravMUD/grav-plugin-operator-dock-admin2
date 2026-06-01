@@ -17,7 +17,7 @@ class OperatorDockMenubarLinks
 
     public function shouldInject(): bool
     {
-        $cfg = (array) $this->grav['config']->get('plugins.grav-operator-dock-admin2', []);
+        $cfg = OperatorDockLegacy::config($this->grav);
 
         return !empty($cfg['enabled']) && !empty($cfg['inject_header_links']);
     }
@@ -39,7 +39,7 @@ class OperatorDockMenubarLinks
 
             $items[] = [
                 'id' => 'operator-dock-link-' . substr(md5(strtolower($url) . '|' . strtolower($label)), 0, 12),
-                'plugin' => 'grav-operator-dock-admin2',
+                'plugin' => 'operator-dock-admin2',
                 'label' => $label,
                 'icon' => trim((string) ($link['icon'] ?? 'fa-link')) ?: 'fa-link',
                 'url' => $url,

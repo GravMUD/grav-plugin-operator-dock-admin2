@@ -1,14 +1,16 @@
 # Operator Dock for Admin2
 
-**Repo:** [GravMUD/grav-plugin-grav-operator-dock-admin2](https://github.com/GravMUD/grav-plugin-grav-operator-dock-admin2)
+**Repo:** [GravMUD/grav-plugin-operator-dock-admin2](https://github.com/GravMUD/grav-plugin-operator-dock-admin2)
 
 **Free Admin2 operator utilities for Grav 2.0** — header shortcuts, dashboard Launch Pad widget, and a one-click Clear Cache toolbar action.
 
 > *JavaBean paints the cockpit. Operator Dock wires the controls.*
 
-Pairs with [JavaBean for Admin2](https://github.com/GravMUD/grav-plugin-grav-javabean-admin2) (MIT theming). Commercial GravMUD plugins (EvvyTink, Commentz, Forumz, etc.) are separate products.
+Pairs with [JavaBean for Admin2](https://github.com/GravMUD/grav-plugin-javabean-admin2) (MIT theming). Commercial GravMUD plugins (EvvyTink, Commentz, Forumz, etc.) are separate products.
 
 **License:** MIT — free forever.
+
+> **Upgrading from `grav-operator-dock-admin2`?** Remove the old folder, install `operator-dock-admin2`, run `bin/grav cache`. Config migrates on first load (v1.1.0+).
 
 ## Requirements
 
@@ -23,13 +25,13 @@ Pairs with [JavaBean for Admin2](https://github.com/GravMUD/grav-plugin-grav-jav
 ### GPM (once listed)
 
 ```bash
-bin/gpm install grav-operator-dock-admin2
+bin/gpm install operator-dock-admin2
 ```
 
 ### Manual
 
 1. Download the latest release zip.
-2. Extract to `user/plugins/grav-operator-dock-admin2`.
+2. Extract to `user/plugins/operator-dock-admin2`.
 3. Clear cache: `bin/grav cache` or Admin2 → Clear Cache.
 4. Enable **Operator Dock for Admin2** in Admin2 → Plugins.
 
@@ -74,7 +76,7 @@ If an older build injected links into `admin-next.yaml`, remove stale entries ma
 .\scripts\build-operator-dock-gpm.ps1
 ```
 
-Plugin path: `user/plugins/grav-operator-dock-admin2/`
+Plugin path: `user/plugins/operator-dock-admin2/`
 
 ## GPM submission
 

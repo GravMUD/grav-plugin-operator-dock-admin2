@@ -10,10 +10,10 @@ Paste this body (everything below the line):
 
 I would like to add my new plugin to the Grav Repository.
 
-**Repository:** https://github.com/GravMUD/grav-plugin-grav-operator-dock-admin2  
-**Release:** https://github.com/GravMUD/grav-plugin-grav-operator-dock-admin2/releases/tag/1.0.0  
+**Repository:** https://github.com/GravMUD/grav-plugin-operator-dock-admin2  
+**Release:** https://github.com/GravMUD/grav-plugin-operator-dock-admin2/releases/tag/1.0.0  
 **Plugin name:** Operator Dock for Admin2  
-**Plugin slug:** grav-operator-dock-admin2  
+**Plugin slug:** operator-dock-admin2  
 **License:** MIT  
 **Grav target:** Grav 2.0 / Admin2  
 **Site / docs:** https://operator-dock.gravmud.site  
@@ -31,7 +31,7 @@ Operator Dock for Admin2 is a free operator utilities plugin for Grav 2's Admin2
 ## Install (once listed)
 
 ```bash
-bin/gpm install grav-operator-dock-admin2
+bin/gpm install operator-dock-admin2
 ```
 
 ---
