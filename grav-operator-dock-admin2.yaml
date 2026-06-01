@@ -1,6 +1,6 @@
 enabled: true
 
-inject_header_links: true
+inject_header_links: false
 
 include_view_site: true
 

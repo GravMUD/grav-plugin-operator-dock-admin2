@@ -1,7 +1,7 @@
 name: Operator Dock for Admin2
 slug: grav-operator-dock-admin2
 type: plugin
-version: 1.0.0
+version: 1.0.1
 description: Free Admin2 operator shortcuts — header links, launch pad widget, one-click cache clear.
 icon: compass
 author:
@@ -34,10 +34,10 @@ form:
         type: bool
     inject_header_links:
       type: toggle
-      label: Inject header shortcuts
+      label: Show header shortcuts
       highlight: 1
-      default: 1
-      help: Merge configured links into Admin2 top bar (menubarLinks)
+      default: 0
+      help: Registers configured links at runtime via the Admin2 menubar API. Does not write admin-next.yaml.
       options:
         1: Enabled
         0: Disabled

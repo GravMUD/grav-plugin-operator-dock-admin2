@@ -37,7 +37,6 @@ class GravOperatorDockAdmin2Plugin extends Plugin
 
         $this->loadClasses();
         OperatorDockRouteCache::maybeInvalidate($this->grav);
-        (new OperatorDockMenubarLinks($this->grav))->mergeConfiguredLinks();
     }
 
     public function onApiRegisterRoutes(Event $event): void
@@ -125,22 +124,26 @@ class GravOperatorDockAdmin2Plugin extends Plugin
             return;
         }
 
-        $cfg = (array) $this->grav['config']->get('plugins.grav-operator-dock-admin2', []);
-        if (empty($cfg['show_clear_cache_button'])) {
-            return;
+        $items = $event['items'] ?? [];
+
+        foreach ((new OperatorDockMenubarLinks($this->grav))->apiItems() as $item) {
+            $items[] = $item;
         }
 
-        $items = $event['items'] ?? [];
-        $items[] = [
-            'id' => 'operator-dock-clear-cache',
-            'plugin' => 'grav-operator-dock-admin2',
-            'label' => 'Clear cache',
-            'icon' => 'fa-broom',
-            'action' => 'clear-cache',
-            'confirm' => 'Clear standard cache now?',
-            'authorize' => 'api.system.write',
-            'priority' => 20,
-        ];
+        $cfg = (array) $this->grav['config']->get('plugins.grav-operator-dock-admin2', []);
+        if (!empty($cfg['show_clear_cache_button'])) {
+            $items[] = [
+                'id' => 'operator-dock-clear-cache',
+                'plugin' => 'grav-operator-dock-admin2',
+                'label' => 'Clear cache',
+                'icon' => 'fa-broom',
+                'action' => 'clear-cache',
+                'confirm' => 'Clear standard cache now?',
+                'authorize' => 'api.system.write',
+                'priority' => 20,
+            ];
+        }
+
         $event['items'] = $items;
     }
 

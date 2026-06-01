@@ -23,10 +23,10 @@ form:
                 0: Disabled
             inject_header_links:
               type: toggle
-              label: Inject header shortcuts
+              label: Show header shortcuts
               highlight: 1
-              default: 1
-              help: Merges links into Admin2 top bar icons
+              default: 0
+              help: Registers links at runtime via the Admin2 menubar API. Does not write admin-next.yaml.
               options:
                 1: Enabled
                 0: Disabled

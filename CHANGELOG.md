@@ -1,9 +1,17 @@
+# v1.0.1
+## 06/01/2026
+
+1. [](#improved)
+    * Header shortcuts register at runtime via `onApiMenubarItems` — no longer writes `user/config/admin-next.yaml`
+    * `inject_header_links` defaults to off (opt-in)
+    * Removed `config->reload()` on every admin request from early plugin init
+
 # v1.0.0
 ## 05/28/2026
 
 1. [](#new)
     * Initial public release — Operator Dock for Admin2
-    * Configurable Admin2 header shortcuts (menubarLinks merge)
+    * Configurable Admin2 header shortcuts (runtime menubar API)
     * Operator Launch Pad dashboard widget with site vitals
     * Launch Pad tiles: Pages, Plugins, Themes, Tools, Settings (+ header shortcuts)
     * One-click Clear Cache menubar action

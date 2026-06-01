@@ -59,12 +59,13 @@ bin/gpm install grav-operator-dock-admin2
 
 Uses official Admin2 extension points only:
 
-- `onApiMenubarItems` / `onApiMenubarAction`
+- `onApiMenubarItems` / `onApiMenubarAction` (header shortcuts + clear cache)
 - `onApiDashboardWidgets` + `admin-next/widgets/{slug}.js`
 - `onApiAdminSettingsPanels` + blueprint settings
-- `admin-next.yaml` menubar link merge (same pattern as JavaBean)
 
-Uninstalling Operator Dock removes future link merges; existing `menubarLinks` entries remain until edited in Settings → Appearance.
+Header shortcuts are registered at runtime via the menubar API. The plugin does **not** write `user/config/admin-next.yaml`. Disable the plugin and the shortcuts disappear automatically.
+
+If an older build injected links into `admin-next.yaml`, remove stale entries manually under **Settings → Appearance → Menubar links**.
 
 ## Development
 

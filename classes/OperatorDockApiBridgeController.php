@@ -33,7 +33,6 @@ class OperatorDockApiBridgeController extends AbstractApiController
                 return ErrorResponse::create(400, 'Bad Request', 'Invalid JSON body');
             }
             $this->writeSettings($body);
-            (new OperatorDockMenubarLinks($this->grav))->mergeConfiguredLinks();
 
             return ApiResponse::create($this->readSettings());
         }
