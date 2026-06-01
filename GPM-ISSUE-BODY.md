@@ -1,13 +1,3 @@
-# GPM submission — Operator Dock for Admin2
-
-Open a new issue on [getgrav/grav](https://github.com/getgrav/grav/issues/new) with title:
-
-**`[add-resource] New Plugin: Operator Dock for Admin2`**
-
-Paste this body (everything below the line):
-
----
-
 I would like to add my new plugin to the Grav Repository.
 
 **Repository:** https://github.com/GravMUD/grav-plugin-grav-operator-dock-admin2  
@@ -34,6 +24,4 @@ Operator Dock for Admin2 is a free operator utilities plugin for Grav 2's Admin2
 bin/gpm install grav-operator-dock-admin2
 ```
 
----
-
-Reference: JavaBean listing [getgrav/grav#4100](https://github.com/getgrav/grav/issues/4100).
+Reference: JavaBean listing https://github.com/getgrav/grav/issues/4100
