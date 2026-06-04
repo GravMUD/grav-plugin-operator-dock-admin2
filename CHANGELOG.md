@@ -1,3 +1,10 @@
+# v1.1.1
+## 06/04/2026
+
+1. [](#bugfix)
+    * **Fix:** Grav 2 plugin bootstrap — explicit `return new GravOperatorDockAdmin2Plugin($name, $grav)` for Andy slug `operator-dock-admin2`
+    * **Fix:** Load `OperatorDockLegacy` before `isEnabled()` in early init (prevents fatal on cache clear)
+
 # v1.1.0
 ## 06/01/2026
 

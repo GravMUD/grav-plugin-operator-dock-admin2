@@ -32,7 +32,12 @@ class GravOperatorDockAdmin2Plugin extends Plugin
 
     public function onPluginsInitializedEarly(): void
     {
-        if (!self::supportsGravApiBridge() || !$this->isEnabled()) {
+        if (!self::supportsGravApiBridge()) {
+            return;
+        }
+
+        require_once __DIR__ . '/classes/OperatorDockLegacy.php';
+        if (!$this->isEnabled()) {
             return;
         }
 
@@ -259,3 +264,5 @@ class GravOperatorDockAdmin2Plugin extends Plugin
         return class_exists(\Grav\Plugin\Api\ApiRouteCollector::class);
     }
 }
+
+return new GravOperatorDockAdmin2Plugin($name, $grav);
