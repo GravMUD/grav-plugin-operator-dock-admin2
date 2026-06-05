@@ -9,7 +9,7 @@ use Grav\Plugin\OperatorDockAdmin2\OperatorDockMenubarLinks;
 use Grav\Plugin\OperatorDockAdmin2\OperatorDockRouteCache;
 use RocketTheme\Toolbox\Event\Event;
 
-class GravOperatorDockAdmin2Plugin extends Plugin
+class OperatorDockAdmin2Plugin extends Plugin
 {
     public static function getSubscribedEvents(): array
     {
@@ -75,8 +75,8 @@ class GravOperatorDockAdmin2Plugin extends Plugin
             'description' => 'Header shortcuts, launch pad links, and quick ops',
             'icon' => 'fa-compass',
             'blueprint' => 'operator-dock-settings',
-            'data_endpoint' => '/operator-dock/settings',
-            'save_endpoint' => '/operator-dock/settings',
+            'data_endpoint' => '/config/plugins/operator-dock-admin2',
+            'save_endpoint' => '/config/plugins/operator-dock-admin2',
             'priority' => 12,
         ];
         $event['panels'] = $panels;
@@ -84,7 +84,11 @@ class GravOperatorDockAdmin2Plugin extends Plugin
 
     public function onApiSidebarItems(Event $event): void
     {
-        if (!$this->isEnabled() || !$this->canUseAdmin($event['user'] ?? null)) {
+        if (!$this->isEnabled() || !is_dir(GRAV_ROOT . '/user/plugins/operator-dock-admin2')) {
+            return;
+        }
+
+        if (!$this->canUseAdmin($event['user'] ?? null)) {
             return;
         }
 
@@ -118,8 +122,8 @@ class GravOperatorDockAdmin2Plugin extends Plugin
             'icon' => 'fa-compass',
             'page_type' => 'blueprint',
             'blueprint' => 'operator-dock-admin2',
-            'data_endpoint' => '/operator-dock/settings',
-            'save_endpoint' => '/operator-dock/settings',
+            'data_endpoint' => '/config/plugins/operator-dock-admin2',
+            'save_endpoint' => '/config/plugins/operator-dock-admin2',
             'actions' => [
                 ['id' => 'save', 'label' => 'Save', 'icon' => 'fa-check', 'primary' => true],
             ],
@@ -264,5 +268,3 @@ class GravOperatorDockAdmin2Plugin extends Plugin
         return class_exists(\Grav\Plugin\Api\ApiRouteCollector::class);
     }
 }
-
-return new GravOperatorDockAdmin2Plugin($name, $grav);
