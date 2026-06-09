@@ -1,3 +1,11 @@
+# v1.1.2
+## 06/05/2026
+
+1. [](#improved)
+    * **Menubar:** `TeamDcMenubarCoordinator` dedupes JavaBean + Operator Dock + Mambo links into `effective.menubarLinks` at preferences resolve time
+    * **Menubar:** Clear Cache stays on action-only menubar API; URL shortcuts no longer register as broken action buttons
+    * **Menubar:** No writes to `user/config/admin-next.yaml`
+
 # v1.1.1
 ## 06/04/2026
 

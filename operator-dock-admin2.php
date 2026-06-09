@@ -5,8 +5,8 @@ namespace Grav\Plugin;
 use Grav\Common\Plugin;
 use Grav\Plugin\OperatorDockAdmin2\OperatorDockApiBridgeController;
 use Grav\Plugin\OperatorDockAdmin2\OperatorDockLegacy;
-use Grav\Plugin\OperatorDockAdmin2\OperatorDockMenubarLinks;
 use Grav\Plugin\OperatorDockAdmin2\OperatorDockRouteCache;
+use Grav\Plugin\OperatorDockAdmin2\TeamDcMenubarCoordinator;
 use RocketTheme\Toolbox\Event\Event;
 
 class OperatorDockAdmin2Plugin extends Plugin
@@ -24,6 +24,7 @@ class OperatorDockAdmin2Plugin extends Plugin
             $events['onApiPluginPageInfo'] = ['onApiPluginPageInfo', 0];
             $events['onApiMenubarItems'] = ['onApiMenubarItems', 0];
             $events['onApiMenubarAction'] = ['onApiMenubarAction', 0];
+            $events['onApiAdminPreferencesResolved'] = ['onApiAdminPreferencesResolved', 0];
             $events['onApiDashboardWidgets'] = ['onApiDashboardWidgets', 0];
         }
 
@@ -130,6 +131,21 @@ class OperatorDockAdmin2Plugin extends Plugin
         ];
     }
 
+    public function onApiAdminPreferencesResolved(Event $event): void
+    {
+        if (!$this->isEnabled() || !$this->canUseAdmin($event['user'] ?? null)) {
+            return;
+        }
+
+        $this->loadClasses();
+        $payload = $event['payload'] ?? [];
+        if (!is_array($payload)) {
+            return;
+        }
+
+        $event['payload'] = TeamDcMenubarCoordinator::mergeIntoPayload($payload, $this->grav);
+    }
+
     public function onApiMenubarItems(Event $event): void
     {
         if (!$this->isEnabled() || !$this->canUseAdmin($event['user'] ?? null)) {
@@ -137,10 +153,6 @@ class OperatorDockAdmin2Plugin extends Plugin
         }
 
         $items = $event['items'] ?? [];
-
-        foreach ((new OperatorDockMenubarLinks($this->grav))->apiItems() as $item) {
-            $items[] = $item;
-        }
 
         $cfg = OperatorDockLegacy::config($this->grav);
         if (!empty($cfg['show_clear_cache_button'])) {
@@ -259,6 +271,7 @@ class OperatorDockAdmin2Plugin extends Plugin
         require_once __DIR__ . '/classes/OperatorDockLegacy.php';
         require_once __DIR__ . '/classes/OperatorDockLinkRegistry.php';
         require_once __DIR__ . '/classes/OperatorDockMenubarLinks.php';
+        require_once __DIR__ . '/classes/TeamDcMenubarCoordinator.php';
         require_once __DIR__ . '/classes/OperatorDockRouteCache.php';
         require_once __DIR__ . '/classes/OperatorDockApiBridgeController.php';
     }

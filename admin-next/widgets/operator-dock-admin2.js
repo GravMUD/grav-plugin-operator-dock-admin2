@@ -17,7 +17,7 @@
     const base = `${cfg.serverUrl}${cfg.apiPrefix}`.replace(/\/+$/, '');
     const headers = { Accept: 'application/json' };
     if (cfg.token) headers['X-API-Token'] = cfg.token;
-    const res = await fetch(`${base}${path.startsWith('/') ? path : `/${path}`}`, { headers });
+    const res = await fetch(`${base}${path.startsWith('/') ? path : `/${path}`}`, { headers, credentials: 'include' });
     const data = await res.json();
     if (!res.ok) throw new Error(data?.error || data?.message || `HTTP ${res.status}`);
     return data?.data ?? data;
