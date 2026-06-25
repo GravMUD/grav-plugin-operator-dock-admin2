@@ -8,8 +8,6 @@ include_grav_learn: true
 
 include_team_dc_pack: false
 
-show_clear_cache_button: true
-
 show_launchpad_widget: true
 
 launchpad_show_vitals: true

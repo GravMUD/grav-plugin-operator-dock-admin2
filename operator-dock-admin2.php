@@ -22,8 +22,6 @@ class OperatorDockAdmin2Plugin extends Plugin
             $events['onApiAdminSettingsPanels'] = ['onApiAdminSettingsPanels', 0];
             $events['onApiSidebarItems'] = ['onApiSidebarItems', 0];
             $events['onApiPluginPageInfo'] = ['onApiPluginPageInfo', 0];
-            $events['onApiMenubarItems'] = ['onApiMenubarItems', 0];
-            $events['onApiMenubarAction'] = ['onApiMenubarAction', 0];
             $events['onApiAdminPreferencesResolved'] = ['onApiAdminPreferencesResolved', 0];
             $events['onApiDashboardWidgets'] = ['onApiDashboardWidgets', 0];
         }
@@ -144,65 +142,6 @@ class OperatorDockAdmin2Plugin extends Plugin
         }
 
         $event['payload'] = TeamDcMenubarCoordinator::mergeIntoPayload($payload, $this->grav);
-    }
-
-    public function onApiMenubarItems(Event $event): void
-    {
-        if (!$this->isEnabled() || !$this->canUseAdmin($event['user'] ?? null)) {
-            return;
-        }
-
-        $items = $event['items'] ?? [];
-
-        $cfg = OperatorDockLegacy::config($this->grav);
-        if (!empty($cfg['show_clear_cache_button'])) {
-            $items[] = [
-                'id' => 'operator-dock-clear-cache',
-                'plugin' => 'operator-dock-admin2',
-                'label' => 'Clear cache',
-                'icon' => 'fa-broom',
-                'action' => 'clear-cache',
-                'confirm' => 'Clear standard cache now?',
-                'authorize' => 'api.system.write',
-                'priority' => 20,
-            ];
-        }
-
-        $event['items'] = $items;
-    }
-
-    public function onApiMenubarAction(Event $event): void
-    {
-        $plugin = (string) ($event['plugin'] ?? '');
-        if (!in_array($plugin, [OperatorDockLegacy::SLUG, OperatorDockLegacy::LEGACY_SLUG], true)) {
-            return;
-        }
-
-        if (($event['action'] ?? '') !== 'clear-cache') {
-            return;
-        }
-
-        $user = $event['user'] ?? null;
-        if (!$user || !($user->get('access.api.super') || $user->get('access.api.system.write'))) {
-            $event['result'] = [
-                'status' => 'error',
-                'message' => 'Insufficient permissions to clear cache.',
-            ];
-            return;
-        }
-
-        try {
-            $this->grav['cache']->clearCache('standard');
-            $event['result'] = [
-                'status' => 'success',
-                'message' => 'Standard cache cleared.',
-            ];
-        } catch (\Throwable $e) {
-            $event['result'] = [
-                'status' => 'error',
-                'message' => 'Cache clear failed: ' . $e->getMessage(),
-            ];
-        }
     }
 
     public function onApiDashboardWidgets(Event $event): void

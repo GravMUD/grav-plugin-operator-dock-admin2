@@ -1,9 +1,15 @@
+# v1.1.3
+## 06/25/2026
+
+1. [](#removed)
+    * **Clear Cache:** Removed duplicate menubar button — Admin2 core now ships selective cache clearing
+
 # v1.1.2
 ## 06/05/2026
 
 1. [](#improved)
     * **Menubar:** `TeamDcMenubarCoordinator` dedupes JavaBean + Operator Dock + Mambo links into `effective.menubarLinks` at preferences resolve time
-    * **Menubar:** Clear Cache stays on action-only menubar API; URL shortcuts no longer register as broken action buttons
+    * **Menubar:** URL shortcuts no longer register as broken action buttons
     * **Menubar:** No writes to `user/config/admin-next.yaml`
 
 # v1.1.1
@@ -30,13 +36,7 @@
     * Removed `config->reload()` on every admin request from early plugin init
 
 # v1.0.0
-## 05/28/2026
+## 05/31/2026
 
 1. [](#new)
-    * Initial public release — Operator Dock for Admin2
-    * Configurable Admin2 header shortcuts (runtime menubar API)
-    * Operator Launch Pad dashboard widget with site vitals
-    * Launch Pad tiles: Pages, Plugins, Themes, Tools, Settings (+ header shortcuts)
-    * One-click Clear Cache menubar action
-    * Settings panel + sidebar plugin page
-    * Optional Team DC shortcut pack (GetGRAV!, Mud Bazaar)
+    * Initial release — header shortcuts, Launch Pad widget, Clear Cache menubar action

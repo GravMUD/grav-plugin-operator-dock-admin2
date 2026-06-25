@@ -90,10 +90,3 @@ form:
               options:
                 1: Yes
                 0: No
-            show_clear_cache_button:
-              type: toggle
-              label: Clear Cache toolbar button
-              default: 1
-              options:
-                1: Enabled
-                0: Disabled

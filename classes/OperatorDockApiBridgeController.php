@@ -62,7 +62,6 @@ class OperatorDockApiBridgeController extends AbstractApiController
             'include_view_site' => !empty($cfg['include_view_site']),
             'include_grav_learn' => !empty($cfg['include_grav_learn']),
             'include_team_dc_pack' => !empty($cfg['include_team_dc_pack']),
-            'show_clear_cache_button' => !empty($cfg['show_clear_cache_button']),
             'show_launchpad_widget' => !empty($cfg['show_launchpad_widget']),
             'launchpad_show_vitals' => !empty($cfg['launchpad_show_vitals']),
             'custom_links' => is_array($cfg['custom_links'] ?? null) ? $cfg['custom_links'] : [],
@@ -81,7 +80,6 @@ class OperatorDockApiBridgeController extends AbstractApiController
             'include_view_site',
             'include_grav_learn',
             'include_team_dc_pack',
-            'show_clear_cache_button',
             'show_launchpad_widget',
             'launchpad_show_vitals',
         ] as $key) {
