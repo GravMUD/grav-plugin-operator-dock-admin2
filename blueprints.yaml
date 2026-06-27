@@ -1,7 +1,7 @@
 name: Operator Dock for Admin2
 slug: operator-dock-admin2
 type: plugin
-version: 1.1.4
+version: 1.1.5
 description: Free Admin2 operator shortcuts — header links and launch pad widget.
 icon: compass
 author:
@@ -111,3 +111,4 @@ form:
             0: No
           validate:
             type: bool
+
